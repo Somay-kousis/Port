@@ -5,10 +5,23 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Mail, Linkedin, ArrowRight, ChevronLeft, ChevronRight, Play, Pause } from "lucide-react"
 
+// Define interfaces for better type safety
+interface MediaItem {
+  type: "image" | "video"
+  src: string
+  alt?: string
+}
+
+interface Project {
+  id: number
+  title: string
+  description: string
+  media: MediaItem[]
+  tech: string[]
+  details: string
+}
+
 export default function Portfolio() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
-  const [scrollY, setScrollY] = useState(0)
-  const [activeProject, setActiveProject] = useState<number | null>(null)
   const [isVisible, setIsVisible] = useState(false)
   const [currentMediaIndex, setCurrentMediaIndex] = useState<{ [key: number]: number }>({})
   const [isVideoPlaying, setIsVideoPlaying] = useState<{ [key: string]: boolean }>({})
@@ -17,14 +30,6 @@ export default function Portfolio() {
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({})
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY })
-    }
-
-    const handleScroll = () => {
-      setScrollY(window.scrollY)
-    }
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -40,14 +45,9 @@ export default function Portfolio() {
       if (ref) observer.observe(ref)
     })
 
-    window.addEventListener("mousemove", handleMouseMove)
-    window.addEventListener("scroll", handleScroll)
-
     setTimeout(() => setIsVisible(true), 100)
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove)
-      window.removeEventListener("scroll", handleScroll)
       observer.disconnect()
     }
   }, [])
@@ -57,21 +57,19 @@ export default function Portfolio() {
     projectsSection?.scrollIntoView({ behavior: "smooth" })
   }
 
-  const projects = [
+  const projects: Project[] = [
     {
       id: 1,
       title: "Mutiny",
       description:
         "A web platform bridging founders, funders, and teams with an AI that can critique like an investor or advise like a CEO.",
       media: [
- 
-        { type: "image", src: "/m1.png", alt:"Mutiny project screenshot 1" },
-        { type: "image", src: "/m2.png", alt:"Mutiny project screenshot 2" },
-        { type: "image", src: "/m3.png", alt:"Mutiny project screenshot 3" },
-        { type: "image", src: "/m4.png", alt:"Mutiny project screenshot 4" },
-        { type: "image", src: "/m5.png", alt:"Mutiny project screenshot 5" },
-        { type: "image", src: "/m6.png", alt:"Mutiny project screenshot 6" },
-
+        { type: "image", src: "/m1.png", alt: "Mutiny project screenshot 1" },
+        { type: "image", src: "/m2.png", alt: "Mutiny project screenshot 2" },
+        { type: "image", src: "/m3.png", alt: "Mutiny project screenshot 3" },
+        { type: "image", src: "/m4.png", alt: "Mutiny project screenshot 4" },
+        { type: "image", src: "/m5.png", alt: "Mutiny project screenshot 5" },
+        { type: "image", src: "/m6.png", alt: "Mutiny project screenshot 6" },
       ],
       tech: ["React.js", "Tailwind", "Next.js", "Framer"],
       details: "Built the responsive front-end in React and Tailwind with animated flows in Framer Motion. Designed dashboards and AI interaction UI for both Critical and Solution modes.",
@@ -80,16 +78,15 @@ export default function Portfolio() {
       id: 2,
       title: "Zuuush",
       description:
-        "A sleek landing and onboarding experience designed to showcase speed and simplicity in product launches.Z",
+        "A sleek landing and onboarding experience designed to showcase speed and simplicity in product launches.",
       media: [
-        { type: "image", src: "/z1.png", alt:"Zuuush project screenshot 1" },
-        { type: "image", src: "/z2.png", alt:"Zuuush project screenshot 2" },
-        { type: "image", src: "/z3.png", alt:"Zuuush project screenshot 3" },
-        { type: "image", src: "/z4.png", alt:"Zuuush project screenshot 4" },
-        { type: "image", src: "/z5.png", alt:"Zuuush project screenshot 5" },
-        { type: "image", src: "/z6.png", alt:"Zuuush project screenshot 6" }, 
-        { type: "image", src: "/z7.png", alt:"Zuuush project screenshot 7" }, 
-
+        { type: "image", src: "/z1.png", alt: "Zuuush project screenshot 1" },
+        { type: "image", src: "/z2.png", alt: "Zuuush project screenshot 2" },
+        { type: "image", src: "/z3.png", alt: "Zuuush project screenshot 3" },
+        { type: "image", src: "/z4.png", alt: "Zuuush project screenshot 4" },
+        { type: "image", src: "/z5.png", alt: "Zuuush project screenshot 5" },
+        { type: "image", src: "/z6.png", alt: "Zuuush project screenshot 6" },
+        { type: "image", src: "/z7.png", alt: "Zuuush project screenshot 7" },
       ],
       tech: ["React.js", "CSS", "Motion"],
       details: "Focused on clean component architecture, fluid transitions, and mobile-first responsiveness using React and vanilla animations.",
@@ -100,16 +97,16 @@ export default function Portfolio() {
       description:
         "Harry Potter–themed luggage site with interactive elements like a Sorting Hat theme selector and suitcase quiz.",
       media: [
-             { type: "image", src: "/m1.png" },
-        { type: "image", src: "/h2.png", alt:"CodeCanvas project screenshot 2" },
-        { type: "image", src: "/h3.png", alt:"CodeCanvas project screenshot 3" },
-        { type: "image", src: "/h4.png", alt:"CodeCanvas project screenshot 4" },
-        { type: "image", src: "/h5.png", alt:"CodeCanvas project screenshot 5" },
-        { type: "image", src: "/h6.png", alt:"CodeCanvas project screenshot 6" },
-        { type: "image", src: "/h7.png", alt:"CodeCanvas project screenshot 7" },
-        { type: "image", src: "/h8.png", alt:"CodeCanvas project screenshot 8" },
-        { type: "image", src: "/h9.png", alt:"CodeCanvas project screenshot 9" },
-        { type: "image", src: "/h10.png", alt:"CodeCanvas project screenshot 10" },
+        { type: "image", src: "/h1.png", alt: "CodeCanvas project screenshot 1" },
+        { type: "image", src: "/h2.png", alt: "CodeCanvas project screenshot 2" },
+        { type: "image", src: "/h3.png", alt: "CodeCanvas project screenshot 3" },
+        { type: "image", src: "/h4.png", alt: "CodeCanvas project screenshot 4" },
+        { type: "image", src: "/h5.png", alt: "CodeCanvas project screenshot 5" },
+        { type: "image", src: "/h6.png", alt: "CodeCanvas project screenshot 6" },
+        { type: "image", src: "/h7.png", alt: "CodeCanvas project screenshot 7" },
+        { type: "image", src: "/h8.png", alt: "CodeCanvas project screenshot 8" },
+        { type: "image", src: "/h9.png", alt: "CodeCanvas project screenshot 9" },
+        { type: "image", src: "/h10.png", alt: "CodeCanvas project screenshot 10" },
       ],
       tech: ["HTML", "CSS", "Javascript"],
       details: "Created entirely with HTML, CSS, and vanilla JS. Designed multi-page layouts, responsive breakpoints, and playful UI interactions to mimic a full product feel.",
@@ -141,7 +138,9 @@ export default function Portfolio() {
     if (!video) return
 
     if (video.paused) {
-      video.play()
+      video.play().catch((error) => {
+        console.error("Error playing video:", error)
+      })
       setIsVideoPlaying((prev) => ({ ...prev, [videoKey]: true }))
     } else {
       video.pause()
@@ -150,7 +149,7 @@ export default function Portfolio() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-neutral-900 to-stone-900 text-cream">
+    <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-neutral-900 to-stone-900 text-white">
       {/* Hero Section */}
       <section
         ref={heroRef}
@@ -166,7 +165,7 @@ export default function Portfolio() {
 
         <div className="text-center max-w-5xl mx-auto px-8 relative z-10">
           <h1
-            className={`text-8xl md:text-[10rem] font-extralight mb-12 tracking-[-0.02em] text-cream transition-all duration-1000 delay-200 ${
+            className={`text-8xl md:text-[10rem] font-extralight mb-12 tracking-[-0.02em] text-white transition-all duration-1000 delay-200 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
             style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}
@@ -185,7 +184,7 @@ export default function Portfolio() {
           <Button
             onClick={scrollToProjects}
             size="lg"
-            className={`bg-olive-600 hover:bg-olive-500 text-cream px-12 py-6 rounded-full font-medium text-lg shadow-2xl hover:shadow-olive-500/25 transition-all duration-500 delay-800 hover:scale-105 border-0 backdrop-blur-sm ${
+            className={`bg-emerald-600 hover:bg-emerald-500 text-white px-12 py-6 rounded-full font-medium text-lg shadow-2xl hover:shadow-emerald-500/25 transition-all duration-500 delay-800 hover:scale-105 border-0 backdrop-blur-sm ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
@@ -199,7 +198,7 @@ export default function Portfolio() {
       <section id="projects" className="py-40 px-8 bg-gradient-to-b from-neutral-900 to-zinc-900">
         <div className="max-w-7xl mx-auto">
           <div className="mb-32 text-center opacity-0 animate-fade-in-up">
-            <h2 className="text-6xl md:text-7xl font-extralight mb-8 tracking-[-0.02em] text-cream">Featured Work</h2>
+            <h2 className="text-6xl md:text-7xl font-extralight mb-8 tracking-[-0.02em] text-white">Featured Work</h2>
             <p className="text-2xl text-stone-300 font-light max-w-3xl mx-auto leading-relaxed">
               A curated selection of projects that showcase innovation, craftsmanship, and attention to detail.
             </p>
@@ -214,24 +213,30 @@ export default function Portfolio() {
               return (
                 <div
                   key={project.id}
-                  ref={(el) => (projectRefs.current[index] = el)}
+                  ref={(el) => {
+                    projectRefs.current[index] = el
+                  }}
                   className="group opacity-0"
-                  onMouseEnter={() => setActiveProject(project.id)}
-                  onMouseLeave={() => setActiveProject(null)}
                 >
                   <div className="grid lg:grid-cols-2 gap-20 items-center">
                     <div className={`${index % 2 === 1 ? "lg:order-2" : ""} relative`}>
-                      <div className="aspect-[16/10] bg-gradient-to-br from-zinc-800 to-neutral-800 rounded-3xl overflow-hidden relative group/media shadow-2xl hover:shadow-olive-500/10 transition-all duration-700 border border-zinc-700/50">
+                      <div className="aspect-[16/10] bg-gradient-to-br from-zinc-800 to-neutral-800 rounded-3xl overflow-hidden relative group/media shadow-2xl hover:shadow-emerald-500/10 transition-all duration-700 border border-zinc-700/50">
                         {currentMedia.type === "image" ? (
                           <img
-                            src={currentMedia.src || "/placeholder.svg"}
-                            alt={currentMedia.alt}
+                            src={currentMedia.src}
+                            alt={currentMedia.alt || `${project.title} screenshot`}
                             className="w-full h-full object-cover transition-all duration-700 ease-out hover:scale-105"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement
+                              target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEyNSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZyI+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiNjY2MiIG9mZnNldD0iMjAlIi8+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiM5OTkiIG9mZnNldD0iNTAlIi8+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiNjY2MiIG9mZnNldD0iNzAlIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2cpIi8+CiAgPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIiBmaWxsPSIjOTk5Ij5JbWFnZSBub3QgZm91bmQ8L3RleHQ+Cjwvc3ZnPg=="
+                            }}
                           />
                         ) : (
                           <div className="relative w-full h-full">
                             <video
-                              ref={(el) => (videoRefs.current[videoKey] = el)}
+                              ref={(el) => {
+                                videoRefs.current[videoKey] = el
+                              }}
                               src={currentMedia.src}
                               className="w-full h-full object-cover transition-all duration-700 ease-out"
                               loop
@@ -242,7 +247,7 @@ export default function Portfolio() {
                               onClick={() => toggleVideo(videoKey)}
                               className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 opacity-0 group-hover/media:opacity-100 transition-opacity duration-300"
                             >
-                              <div className="bg-cream/95 backdrop-blur-sm rounded-full p-6 hover:bg-cream transition-all duration-200 shadow-2xl">
+                              <div className="bg-white/95 backdrop-blur-sm rounded-full p-6 hover:bg-white transition-all duration-200 shadow-2xl">
                                 {isVideoPlaying[videoKey] ? (
                                   <Pause className="h-8 w-8 text-zinc-900" />
                                 ) : (
@@ -257,13 +262,13 @@ export default function Portfolio() {
                           <>
                             <button
                               onClick={() => prevMedia(project.id)}
-                              className="absolute left-6 top-1/2 -translate-y-1/2 bg-cream/90 backdrop-blur-sm hover:bg-cream rounded-full p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-xl"
+                              className="absolute left-6 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm hover:bg-white rounded-full p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-xl"
                             >
                               <ChevronLeft className="h-6 w-6 text-zinc-900" />
                             </button>
                             <button
                               onClick={() => nextMedia(project.id)}
-                              className="absolute right-6 top-1/2 -translate-y-1/2 bg-cream/90 backdrop-blur-sm hover:bg-cream rounded-full p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-xl"
+                              className="absolute right-6 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm hover:bg-white rounded-full p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-xl"
                             >
                               <ChevronRight className="h-6 w-6 text-zinc-900" />
                             </button>
@@ -277,8 +282,8 @@ export default function Portfolio() {
                                   }
                                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
                                     mediaIndex === currentIndex
-                                      ? "bg-olive-500 scale-125 shadow-lg"
-                                      : "bg-cream/70 hover:bg-cream"
+                                      ? "bg-emerald-500 scale-125 shadow-lg"
+                                      : "bg-white/70 hover:bg-white"
                                   }`}
                                 />
                               ))}
@@ -290,7 +295,7 @@ export default function Portfolio() {
 
                     <div className={`${index % 2 === 1 ? "lg:order-1" : ""} space-y-8`}>
                       <div>
-                        <h3 className="text-5xl md:text-6xl font-extralight mb-6 tracking-[-0.02em] text-cream transition-transform duration-500 group-hover:text-olive-200">
+                        <h3 className="text-5xl md:text-6xl font-extralight mb-6 tracking-[-0.02em] text-white transition-transform duration-500 group-hover:text-emerald-200">
                           {project.title}
                         </h3>
                         <p className="text-xl text-stone-300 font-light leading-relaxed mb-6 max-w-lg">
@@ -304,7 +309,7 @@ export default function Portfolio() {
                           <Badge
                             key={tech}
                             variant="outline"
-                            className="border-zinc-600 bg-zinc-800/50 text-stone-300 font-medium px-4 py-2 rounded-full hover:border-olive-500 hover:bg-olive-900/30 hover:text-olive-200 transition-all duration-300 backdrop-blur-sm"
+                            className="border-zinc-600 bg-zinc-800/50 text-stone-300 font-medium px-4 py-2 rounded-full hover:border-emerald-500 hover:bg-emerald-900/30 hover:text-emerald-200 transition-all duration-300 backdrop-blur-sm"
                             style={{ transitionDelay: `${techIndex * 50}ms` }}
                           >
                             {tech}
@@ -330,7 +335,7 @@ export default function Portfolio() {
       {/* Contact Section */}
       <section className="py-40 px-8 bg-gradient-to-b from-zinc-900 to-neutral-900">
         <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-6xl md:text-7xl font-extralight mb-12 tracking-[-0.02em] text-cream">
+          <h2 className="text-6xl md:text-7xl font-extralight mb-12 tracking-[-0.02em] text-white">
             Let's Create Together
           </h2>
 
@@ -341,7 +346,7 @@ export default function Portfolio() {
           <div className="flex flex-col sm:flex-row justify-center gap-6">
             <Button
               size="lg"
-              className="bg-olive-600 hover:bg-olive-500 text-cream px-12 py-6 rounded-full font-medium text-lg shadow-2xl hover:shadow-olive-500/25 transition-all duration-300 hover:scale-105 group border-0 backdrop-blur-sm"
+              className="bg-emerald-600 hover:bg-emerald-500 text-white px-12 py-6 rounded-full font-medium text-lg shadow-2xl hover:shadow-emerald-500/25 transition-all duration-300 hover:scale-105 group border-0 backdrop-blur-sm"
               asChild
             >
               <a href="mailto:Somaykaush@gmail.com">
@@ -352,7 +357,7 @@ export default function Portfolio() {
             <Button
               variant="outline"
               size="lg"
-              className="border-2 border-zinc-600 text-stone-300 hover:border-olive-500 hover:text-olive-200 px-12 py-6 rounded-full font-medium text-lg bg-zinc-800/50 hover:bg-olive-900/20 transition-all duration-300 hover:scale-105 group backdrop-blur-sm"
+              className="border-2 border-zinc-600 text-stone-300 hover:border-emerald-500 hover:text-emerald-200 px-12 py-6 rounded-full font-medium text-lg bg-zinc-800/50 hover:bg-emerald-900/20 transition-all duration-300 hover:scale-105 group backdrop-blur-sm"
               asChild
             >
               <a href="https://www.linkedin.com/in/somay-kousis-630ab1313/" target="_blank" rel="noopener noreferrer">

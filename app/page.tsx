@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Mail, Linkedin, ArrowRight, ChevronLeft, ChevronRight, Play, Pause } from "lucide-react"
@@ -23,11 +24,11 @@ interface Project {
 
 export default function Portfolio() {
   const [isVisible, setIsVisible] = useState(false)
-  const [currentMediaIndex, setCurrentMediaIndex] = useState<{ [key: number]: number }>({})
-  const [isVideoPlaying, setIsVideoPlaying] = useState<{ [key: string]: boolean }>({})
+  const [currentMediaIndex, setCurrentMediaIndex] = useState<Record<number, number>>({})
+  const [isVideoPlaying, setIsVideoPlaying] = useState<Record<string, boolean>>({})
   const heroRef = useRef<HTMLDivElement>(null)
   const projectRefs = useRef<(HTMLDivElement | null)[]>([])
-  const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({})
+  const videoRefs = useRef<Record<string, HTMLVideoElement | null>>({})
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -45,16 +46,19 @@ export default function Portfolio() {
       if (ref) observer.observe(ref)
     })
 
-    setTimeout(() => setIsVisible(true), 100)
+    const timer = setTimeout(() => setIsVisible(true), 100)
 
     return () => {
       observer.disconnect()
+      clearTimeout(timer)
     }
   }, [])
 
   const scrollToProjects = () => {
     const projectsSection = document.getElementById("projects")
-    projectsSection?.scrollIntoView({ behavior: "smooth" })
+    if (projectsSection) {
+      projectsSection.scrollIntoView({ behavior: "smooth" })
+    }
   }
 
   const projects: Project[] = [
@@ -138,7 +142,7 @@ export default function Portfolio() {
     if (!video) return
 
     if (video.paused) {
-      video.play().catch((error) => {
+      video.play().catch((error: Error) => {
         console.error("Error playing video:", error)
       })
       setIsVideoPlaying((prev) => ({ ...prev, [videoKey]: true }))
@@ -222,14 +226,12 @@ export default function Portfolio() {
                     <div className={`${index % 2 === 1 ? "lg:order-2" : ""} relative`}>
                       <div className="aspect-[16/10] bg-gradient-to-br from-zinc-800 to-neutral-800 rounded-3xl overflow-hidden relative group/media shadow-2xl hover:shadow-emerald-500/10 transition-all duration-700 border border-zinc-700/50">
                         {currentMedia.type === "image" ? (
-                          <img
+                          <Image
                             src={currentMedia.src}
                             alt={currentMedia.alt || `${project.title} screenshot`}
-                            className="w-full h-full object-cover transition-all duration-700 ease-out hover:scale-105"
-                            onError={(e) => {
-                              const target = e.target as HTMLImageElement
-                              target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEyNSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZyI+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiNjY2MiIG9mZnNldD0iMjAlIi8+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiM5OTkiIG9mZnNldD0iNTAlIi8+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiNjY2MiIG9mZnNldD0iNzAlIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2cpIi8+CiAgPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIiBmaWxsPSIjOTk5Ij5JbWFnZSBub3QgZm91bmQ8L3RleHQ+Cjwvc3ZnPg=="
-                            }}
+                            fill
+                            className="object-cover transition-all duration-700 ease-out hover:scale-105"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                           />
                         ) : (
                           <div className="relative w-full h-full">
@@ -246,6 +248,7 @@ export default function Portfolio() {
                             <button
                               onClick={() => toggleVideo(videoKey)}
                               className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 opacity-0 group-hover/media:opacity-100 transition-opacity duration-300"
+                              type="button"
                             >
                               <div className="bg-white/95 backdrop-blur-sm rounded-full p-6 hover:bg-white transition-all duration-200 shadow-2xl">
                                 {isVideoPlaying[videoKey] ? (
@@ -263,12 +266,14 @@ export default function Portfolio() {
                             <button
                               onClick={() => prevMedia(project.id)}
                               className="absolute left-6 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm hover:bg-white rounded-full p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-xl"
+                              type="button"
                             >
                               <ChevronLeft className="h-6 w-6 text-zinc-900" />
                             </button>
                             <button
                               onClick={() => nextMedia(project.id)}
                               className="absolute right-6 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm hover:bg-white rounded-full p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-xl"
+                              type="button"
                             >
                               <ChevronRight className="h-6 w-6 text-zinc-900" />
                             </button>
@@ -285,6 +290,7 @@ export default function Portfolio() {
                                       ? "bg-emerald-500 scale-125 shadow-lg"
                                       : "bg-white/70 hover:bg-white"
                                   }`}
+                                  type="button"
                                 />
                               ))}
                             </div>
@@ -336,11 +342,11 @@ export default function Portfolio() {
       <section className="py-40 px-8 bg-gradient-to-b from-zinc-900 to-neutral-900">
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-6xl md:text-7xl font-extralight mb-12 tracking-[-0.02em] text-white">
-            Let's Create Together
+            Let&apos;s Create Together
           </h2>
 
           <p className="text-2xl text-stone-300 font-light mb-20 max-w-3xl mx-auto leading-relaxed">
-            Ready to bring your vision to life? I'm passionate about collaborating on projects that make a difference.
+            Ready to bring your vision to life? I&apos;m passionate about collaborating on projects that make a difference.
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-6">

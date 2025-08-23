@@ -70,9 +70,6 @@ export default function Portfolio() {
       media: [
         { type: "image", src: "/m1.png", alt: "Mutiny project screenshot 1" },
         { type: "image", src: "/m2.png", alt: "Mutiny project screenshot 2" },
-        { type: "image", src: "/m3.png", alt: "Mutiny project screenshot 3" },
-        { type: "image", src: "/m4.png", alt: "Mutiny project screenshot 4" },
-        { type: "image", src: "/m5.png", alt: "Mutiny project screenshot 5" },
         { type: "image", src: "/m6.png", alt: "Mutiny project screenshot 6" },
       ],
       tech: ["React.js", "Tailwind", "Next.js", "Framer"],

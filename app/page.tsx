@@ -62,21 +62,9 @@ export default function Portfolio() {
   }
 
   const projects: Project[] = [
+
     {
       id: 1,
-      title: "Mutiny",
-      description:
-        "A web platform bridging founders, funders, and teams with an AI that can critique like an investor or advise like a CEO.",
-      media: [
-        { type: "image", src: "https://res.cloudinary.com/dyfjyhuyp/image/upload/v1755976021/m1_dfr0ek.png", alt: "Mutiny project screenshot 1" },
-        { type: "image", src: "https://res.cloudinary.com/dyfjyhuyp/image/upload/v1755976022/m2_ceunzl.png", alt: "Mutiny project screenshot 2" },
-        { type: "image", src: "https://res.cloudinary.com/dyfjyhuyp/image/upload/v1755976025/m6_es32sr.png", alt: "Mutiny project screenshot 6" },
-      ],
-      tech: ["React.js", "Tailwind", "Next.js", "Framer"],
-      details: "Built the responsive front-end in React and Tailwind with animated flows in Framer Motion. Designed dashboards and AI interaction UI for both Critical and Solution modes.",
-    },
-    {
-      id: 2,
       title: "Zuuush",
       description:
         "A sleek landing and onboarding experience designed to showcase speed and simplicity in product launches.",
@@ -92,7 +80,7 @@ export default function Portfolio() {
       details: "Focused on clean component architecture, fluid transitions, and mobile-first responsiveness using React and vanilla animations.",
     },
     {
-      id: 3,
+      id: 2,
       title: "CodeCanvas",
       description:
         "Harry Potter–themed luggage site with interactive elements like a Sorting Hat theme selector and suitcase quiz.",

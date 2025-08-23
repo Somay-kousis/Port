@@ -81,7 +81,7 @@ export default function Portfolio() {
     },
     {
       id: 2,
-      title: "CodeCanvas",
+      title: "MuggleProof Luggage",
       description:
         "Harry Potter–themed luggage site with interactive elements like a Sorting Hat theme selector and suitcase quiz.",
       media: [

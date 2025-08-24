@@ -62,9 +62,21 @@ export default function Portfolio() {
   }
 
   const projects: Project[] = [
-
     {
       id: 1,
+      title: "Prosk",
+      description:
+        "An interactive platform experience crafted to highlight collaboration, growth, and community-driven ideas in a modern, minimal design.",
+      media: [
+        { type: "image", src: "https://res.cloudinary.com/dyfjyhuyp/image/upload/v1755976021/m1_dfr0ek.png", alt: "Prosk project screenshot 1" },
+        { type: "image", src: "https://res.cloudinary.com/dyfjyhuyp/image/upload/v1755976022/m2_ceunzl.png", alt: "Prosk project screenshot 2" },
+        { type: "image", src: "https://res.cloudinary.com/dyfjyhuyp/image/upload/v1755976025/m6_es32sr.png", alt: "Prosk project screenshot 3" },
+      ],
+      tech: ["React.js","Next.js", "Tailwind","Framer", "Motion"],
+      details: "Emphasizes modular design, smooth UI animations, and accessibility-first principles, ensuring a balanced experience across web and mobile.",
+    },
+    {
+      id: 2,
       title: "Zuuush",
       description:
         "A sleek landing and onboarding experience designed to showcase speed and simplicity in product launches.",
@@ -80,7 +92,7 @@ export default function Portfolio() {
       details: "Focused on clean component architecture, fluid transitions, and mobile-first responsiveness using React and vanilla animations.",
     },
     {
-      id: 2,
+      id: 3,
       title: "MuggleProof Luggage",
       description:
         "Harry Potter–themed luggage site with interactive elements like a Sorting Hat theme selector and suitcase quiz.",
